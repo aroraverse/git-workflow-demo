@@ -1,0 +1,129 @@
+GIT COMMANDS USED IN THIS ASSIGNMENT
+====================================
+Repository : git-workflow-demo
+GitHub URL : https://github.com/aroraverse/git-workflow-demo
+
+------------------------------------------------------------
+STEP 1 - LOCAL REPOSITORY SETUP
+------------------------------------------------------------
+git --version
+    Shows the installed Git version, confirming Git is available.
+
+git config --global user.name / git config --global user.email
+    Sets (or shows) the author name and email recorded in every commit.
+
+git init -b main
+    Creates a new, empty Git repository in the current folder (a hidden .git
+    directory) and names the first branch "main".
+
+git status
+    Shows which files are untracked, modified or staged, and the current branch.
+
+------------------------------------------------------------
+STEP 2 - GIT WORKFLOW
+------------------------------------------------------------
+git add index.html about.html
+    Stages the two files so they are included in the next commit.
+
+git commit -m "Initial commit: add index.html and about.html"
+    Records the staged snapshot permanently in history with a message.
+
+git diff
+    Shows line-by-line changes in the working folder that are not yet staged.
+
+git add index.html
+git commit -m "Update index.html with version control description"
+    Stages the modified index.html and creates the second commit.
+
+git branch feature
+    Creates a new branch called "feature" pointing at the current commit.
+
+git branch
+    Lists all local branches; the current one is marked with *.
+
+git checkout feature
+    Switches the working folder to the "feature" branch.
+    (git switch feature does the same in newer Git versions.)
+
+git add about.html
+git commit -m "Add features list to about.html (feature branch)"
+    Commits the about.html change on the feature branch only.
+
+git log --oneline
+    Shows commit history compactly: one line per commit (short hash + message).
+
+git checkout main
+    Switches back to the main branch (the feature change is not visible here yet).
+
+git merge --no-ff feature -m "Merge branch 'feature' into main"
+    Merges feature into main. --no-ff forces a merge commit so the branch
+    activity stays visible in the history graph.
+
+git log --oneline --graph --all --decorate
+    Draws the full history of all branches as a graph, with branch labels.
+
+git log --stat
+    Shows detailed history: author, date, message and files changed per commit.
+
+------------------------------------------------------------
+STEP 3 - .GITIGNORE
+------------------------------------------------------------
+cat .gitignore
+    Displays the ignore rules: "*.log" (all log files) and "temp/" (a folder).
+
+git status --ignored
+    Shows tracked/untracked files and also lists ignored ones (debug.log, temp/),
+    proving the .gitignore rules work.
+
+git add .gitignore
+git commit -m "Add .gitignore to ignore .log files and temp/ folder"
+    Commits the ignore rules so they apply for everyone who clones the repo.
+
+------------------------------------------------------------
+STEP 4 - UNDO OPERATION
+------------------------------------------------------------
+git add contact.html
+git commit -m "Add contact.html (to be undone)"
+    Makes an extra commit that will be undone.
+
+git revert HEAD --no-edit
+    Undoes the last commit by creating a NEW commit that reverses its changes
+    (contact.html is removed). History is kept, so it is safe for shared/pushed
+    branches. --no-edit accepts the default commit message.
+
+git show --stat HEAD
+    Shows details of the latest commit (the revert) and the files it changed.
+
+(Alternative, not used: git reset --soft HEAD~1 / git reset --hard HEAD~1
+    removes the last commit from history instead of reversing it; reset rewrites
+    history, so revert was chosen because the history is pushed to GitHub.)
+
+------------------------------------------------------------
+STEP 5 - GITHUB INTEGRATION
+------------------------------------------------------------
+git add git_commands.txt
+git commit -m "Add git_commands.txt documenting all commands used"
+    Adds this documentation file to the repository.
+
+gh repo create git-workflow-demo --public
+    Creates an empty PUBLIC repository on GitHub (can also be done on github.com
+    via New repository; do not add a README so the local history pushes cleanly).
+
+git remote add origin https://github.com/aroraverse/git-workflow-demo.git
+    Links the local repository to the GitHub repository under the name "origin".
+
+git remote -v
+    Lists configured remotes and their fetch/push URLs to verify the link.
+
+git push -u origin main
+    Uploads the main branch and its full history to GitHub; -u sets origin/main
+    as the default upstream for future git push / git pull.
+
+git push origin feature
+    Also uploads the feature branch so the branch is visible on GitHub.
+
+git branch -a
+    Lists local and remote-tracking branches, confirming both were pushed.
+
+git log --oneline --graph --all --decorate
+    Final history check: local and origin branches point to the same commits.
